@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathRigidbodyFollower : MonoBehaviour {
-    public float force;
+    public float torque;
     public BezierPath path;
     private Rigidbody rb;
     private Vector3[] controlPoints;
@@ -44,6 +44,7 @@ public class PathRigidbodyFollower : MonoBehaviour {
             Debug.DrawLine(rb.position + new Vector3(0,0.5f,0), rb.position + 10 * direction + new Vector3(0,0.5f,0), Color.blue);
             float angle = Vector3.Angle(rb.transform.forward, direction);
             vehicle.setTurnRadius((Vector3.Cross(rb.transform.forward, direction).y > 0) ? angle : -angle);
+            vehicle.setTorque(torque);
         }
     }
 
@@ -55,6 +56,9 @@ public class PathRigidbodyFollower : MonoBehaviour {
                 nextIndex();
             } else {
                 derailed = true;
+                vehicle.bump();
+                vehicle.setTorque(0f);
+                vehicle.setTurnRadius(0f);
             }
         }
 
@@ -68,6 +72,8 @@ public class PathRigidbodyFollower : MonoBehaviour {
             Debug.DrawLine(rb.position, controlPoints[index], Color.white);
             speed = rb.velocity.magnitude * 3.6f;
             checkForDerailing();
+        } else {
+            Debug.Log("derailed!");
         }
     }
 }

@@ -8,6 +8,8 @@ public class Vehicle : MonoBehaviour {
     public float wheelbase;
     public float wheelRadius;
 
+    public float mass;
+
     private Rigidbody rb; 
     private WheelCollider[] wheels = new WheelCollider[4];
 
@@ -18,11 +20,20 @@ public class Vehicle : MonoBehaviour {
         GameObject wheel = new GameObject(transform.name + " " + a + " wheel " + b);
         wheel.transform.parent = this.transform;
         wheel.transform.localPosition = new Vector3((right ? 1f : -1f) * axleWidth / 2f, wheelRadius, (front ? 1f : -1f) * wheelbase / 2f);
+        wheel.layer = gameObject.layer;
 
         WheelCollider collider = wheel.AddComponent<WheelCollider>();
+        var suspension = collider.suspensionSpring;
+        suspension.spring = 5 * 0.25f * mass * 9.81f;
+        suspension.damper = 0.2f;
+        suspension.targetPosition = 1f;
+        collider.suspensionSpring = suspension;
         collider.radius = wheelRadius;
-        collider.suspensionDistance = 0f;
-        collider.mass = 1f;
+        collider.suspensionDistance = 0.001f;
+        collider.mass = 0.01f * mass;
+
+        collider.ConfigureVehicleSubsteps(5, 12, 15);
+
         return collider;
     }
 
@@ -34,9 +45,15 @@ public class Vehicle : MonoBehaviour {
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+        rb.mass = 0.96f * mass;
         createWheels();
-        wheels[0].motorTorque = 3f;
-        wheels[1].motorTorque = 3f;
+    }
+
+    public void setTorque(float torque) {
+        if (Mathf.Abs(torque - wheels[0].motorTorque) > 0.5f) {
+            wheels[0].motorTorque = torque;
+            wheels[1].motorTorque = torque;
+        }
     }
 
     public void setTurnRadius(float angle) {
@@ -47,6 +64,14 @@ public class Vehicle : MonoBehaviour {
         wheels[1].steerAngle = angle;
         wheels[2].steerAngle = -angle;
         wheels[3].steerAngle = -angle;
+    }
+
+    public void bump() {
+        //rb.AddForceAtPosition(transform.up * 1f, new Vector3(0,0,wheelbase), ForceMode.Impulse);
+    }
+
+    public Transform getTransform() {
+        return rb.transform;
     }
 
     void Update() {
