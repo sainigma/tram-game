@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ApproximatedCurve {
   BezierPath path;
+  Vector3[] resultingPoints;
   float length;
   float stepLength;
 
@@ -33,7 +34,8 @@ public class ApproximatedCurve {
       points.AddRange(getSegment(i, steps));
     }
     Vector3[] result = points.ToArray();
-    return simplify(result);
+    resultingPoints = simplify(result);
+    return resultingPoints;
   }
 
   public float getStepLength() {

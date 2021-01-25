@@ -12,9 +12,11 @@ public class PathRigidbodyFollower : MonoBehaviour {
     public int index;
     public float speed;
     private Vector3 targetDirection;
+    private Vehicle vehicle;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+        vehicle = GetComponent<Vehicle>();
         controlPoints = path.GetApproximation();
         index = -1;
     }
@@ -37,9 +39,11 @@ public class PathRigidbodyFollower : MonoBehaviour {
     private void moveTowards(Vector3 target) {
         Vector3 direction = (target - rb.position).normalized;
         if (direction != Vector3.zero) {
-            Quaternion newRotation = Quaternion.LookRotation(direction, rb.transform.up);
-            rb.MoveRotation(newRotation);
-            rb.AddForce(rb.transform.forward * force);
+            //Quaternion newRotation = Quaternion.LookRotation(direction, rb.transform.up);
+            Debug.DrawLine(rb.position + new Vector3(0,0.5f,0), rb.position + 10 * rb.transform.forward + new Vector3(0,0.5f,0), Color.red);
+            Debug.DrawLine(rb.position + new Vector3(0,0.5f,0), rb.position + 10 * direction + new Vector3(0,0.5f,0), Color.blue);
+            float angle = Vector3.Angle(rb.transform.forward, direction);
+            vehicle.setTurnRadius((Vector3.Cross(rb.transform.forward, direction).y > 0) ? angle : -angle);
         }
     }
 
