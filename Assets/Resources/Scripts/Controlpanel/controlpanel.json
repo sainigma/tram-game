@@ -1,0 +1,58 @@
+{
+  "status":200,
+  "dials":[
+    {"x":-0.1494, "y":-0.0561, "range":270.0, "offset":-225.0, "label": "speed"},
+    {"x":-0.0531, "y":-0.0561, "range":270.0, "offset":-225.0, "label": "brakes"}
+  ],
+  "colors":[
+    {"h": 0.1027, "s": 0.82, "v": 1.0},
+    {"h": 0.0, "s": 0.0, "v": 0.69},
+    {"h": 0.62, "s": 0.87, "v": 0.89},
+    {"h": 0.27, "s": 0.88, "v": 0.89},
+    {"h": 0.0, "s": 1.0, "v": 0.78}
+  ],
+  "buttons":[
+    {"x": -0.2166, "y": -0.0866, "color": 1, "label": " "},
+
+    {"x": -0.2166, "y": -0.014, "color": 2, "label": "kauko\nvalot"},
+    
+    {"x": -0.2166, "y": 0.0151, "color": 1, "label": " "},
+    {"x": -0.1777, "y": 0.0151, "color": 0, "label": " "},
+    {"x": -0.1385, "y": 0.0151, "color": 1, "label": " "},
+
+    {"x": -0.0758, "y": 0.0151, "color": 1, "label": " "},
+    {"x": -0.0376, "y": 0.0151, "color": 0, "label": " "},
+    {"x": 0.0013, "y": 0.0151, "color": 1, "label": "radio"},
+
+    {"x": 0.0752, "y": 0.0151, "color": 0, "label": "vaihteen\nkääntö"},
+
+    {"x": 0.2199, "y": 0.0151, "color": 3, "label": "suunta\nvilkut"},
+
+    {"x": 0.3463, "y": -0.0099, "color": 1, "label": "tuulilasin\npyyhin"},
+    {"x": 0.3845, "y": -0.0099, "color": 1, "label": "tuulilasin\nhuuhtelu"},
+    {"x": 0.4247, "y": -0.0099, "color": 0, "label": " "},
+    {"x": 0.4629, "y": -0.0099, "color": 0, "label": " "},
+
+    {"x": 0.3463, "y": 0.0151, "color": 3, "label": "lähtee"},
+    {"x": 0.3845, "y": 0.0151, "color": 2, "label": "pysähtyy"},
+    {"x": 0.4247, "y": 0.0151, "color": 4, "label": "seisonta\njarru"},
+    {"x": 0.4629, "y": 0.0151, "color": 0, "label": " "},
+    {"x": 0.5019, "y": 0.0151, "color": 0, "label": "penkin\nlämmitys"},
+
+    {"x": 0.3463, "y": 0.06008, "color": 0, "label": "ovet\nauki"},
+    {"x": 0.3845, "y": 0.06008, "color": 0, "label": "ovet\nkiinni"},
+    {"x": 0.4247, "y": 0.06008, "color": 0, "label": " "},
+    {"x": 0.4629, "y": 0.06008, "color": 0, "label": " "},
+    {"x": 0.5019, "y": 0.06008, "color": 0, "label": " "},
+
+    {"x": 0.3463, "y": 0.0883, "color": 0, "label": "oven\nlukitus"},
+    {"x": 0.3845, "y": 0.0883, "color": 0, "label": "ovi 1"},
+    {"x": 0.4247, "y": 0.0883, "color": 0, "label": "ovi 2"},
+    {"x": 0.4629, "y": 0.0883, "color": 0, "label": "ovi 3"},
+    {"x": 0.5019, "y": 0.0883, "color": 0, "label": "ovi 4"}
+  ]
+}
+
+
+
+

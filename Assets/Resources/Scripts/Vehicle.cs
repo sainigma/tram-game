@@ -24,12 +24,12 @@ public class Vehicle : MonoBehaviour {
 
         WheelCollider collider = wheel.AddComponent<WheelCollider>();
         var suspension = collider.suspensionSpring;
-        suspension.spring = 5 * 0.25f * mass * 9.81f;
-        suspension.damper = 0.2f;
+        suspension.spring = 15 * 0.25f * mass * 9.81f;
+        suspension.damper = 2f;
         suspension.targetPosition = 1f;
         collider.suspensionSpring = suspension;
         collider.radius = wheelRadius;
-        collider.suspensionDistance = 0.001f;
+        collider.suspensionDistance = 0.3f;
         collider.mass = 0.01f * mass;
 
         collider.ConfigureVehicleSubsteps(5, 12, 15);
