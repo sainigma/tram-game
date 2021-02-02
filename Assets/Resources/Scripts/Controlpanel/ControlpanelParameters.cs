@@ -21,6 +21,7 @@ public class DialParameters {
   public float x, y;
   public string label;
   public float range, offset;
+  public bool logo;
 }
 
 [System.Serializable]
@@ -30,6 +31,7 @@ public class ControlpanelParameters {
   public int status;
   public List<HSVColor> colors;
   public List<ButtonParameters> buttons;
+  public List<DialParameters> dials;
 
   public static ControlpanelParameters CreateFromJSON(string jsonString) {
     return JsonUtility.FromJson<ControlpanelParameters>(jsonString);

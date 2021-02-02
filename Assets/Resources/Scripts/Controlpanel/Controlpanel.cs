@@ -6,6 +6,8 @@ using UnityEngine;
 public class Controlpanel : MonoBehaviour
 {
     public GameObject buttonPrefab;
+    public GameObject dialPrefab;
+
     public TextAsset jsonConfig;
 
     private bool initialized = false;
@@ -32,6 +34,16 @@ public class Controlpanel : MonoBehaviour
         }
     }
 
+    private void spawnDial(DialParameters dialConfig) {
+        GameObject newDial = Instantiate(dialPrefab, new Vector3(), Quaternion.identity);
+        newDial.transform.parent = this.transform;
+        newDial.transform.localPosition = new Vector3(dialConfig.x, dialConfig.y, 0);
+        newDial.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+        newDial.GetComponent<Dial>().init(dialConfig);
+    }
+
+
     public void init() {
         if (initialized) {
             return;
@@ -42,6 +54,9 @@ public class Controlpanel : MonoBehaviour
         }
         foreach (ButtonParameters btn in config.buttons) {
             spawnButton(btn.x, btn.y, btn.color, btn.label);
+        }
+        foreach (DialParameters dial in config.dials) {
+            spawnDial(dial);
         }
     }
 
