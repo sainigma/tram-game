@@ -34,6 +34,14 @@ public class Controlpanel : MonoBehaviour
         }
     }
 
+    public List<Button> getButtons() {
+        return buttons;
+    }
+
+    public bool isInitialized() {
+        return initialized;
+    }
+
     private void spawnDial(DialParameters dialConfig) {
         GameObject newDial = Instantiate(dialPrefab, new Vector3(), Quaternion.identity);
         newDial.transform.parent = this.transform;
@@ -48,7 +56,6 @@ public class Controlpanel : MonoBehaviour
         if (initialized) {
             return;
         }
-        initialized = true;
         foreach (HSVColor hsv in config.colors) {
             colors.Add(Color.HSVToRGB(hsv.h, hsv.s, hsv.v));
         }
@@ -58,28 +65,12 @@ public class Controlpanel : MonoBehaviour
         foreach (DialParameters dial in config.dials) {
             spawnDial(dial);
         }
+        initialized = true;
     }
 
     void Start() {
         config = ControlpanelParameters.CreateFromJSON(jsonConfig.ToString());
         init();
         //namedButtons["lähtee"].setEmission(true);
-    }
-
-    private float timer = 0;
-    private int previous = -1;
-    void Update() {
-        if (initialized) {
-            if (timer > 0.5f) {
-                int random = (int)Random.Range(0, buttons.Count);
-                buttons[random].toggleEmission();
-                if (previous != -1) {
-                    buttons[previous].toggleEmission();
-                }
-                previous = random;
-                timer = 0;
-            }
-            timer += Time.deltaTime;
-        }
     }
 }
