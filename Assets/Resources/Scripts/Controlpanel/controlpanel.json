@@ -1,8 +1,8 @@
 {
   "status":200,
   "dials":[
-    {"x":-0.1494, "y":-0.0561, "range":270.0, "offset":-225.0, "label": "dialvelocity", "logo":1},
-    {"x":-0.0531, "y":-0.0561, "range":270.0, "offset":-225.0, "label": "dialbrakes", "logo":0}
+    {"x":-0.1494, "y":-0.0561, "range":270.0, "offset":-225.0, "maxValue":80.0, "label": "dialvelocity", "logo":1},
+    {"x":-0.0531, "y":-0.0561, "range":270.0, "offset":-225.0, "maxValue":1.0, "label": "dialbrakes", "logo":0}
   ],
   "colors":[
     {"h": 0.1027, "s": 0.82, "v": 1.0},

@@ -20,7 +20,7 @@ public class ButtonParameters {
 public class DialParameters {
   public float x, y;
   public string label;
-  public float range, offset;
+  public float range, offset, maxValue;
   public bool logo;
 }
 

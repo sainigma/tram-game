@@ -21,7 +21,7 @@ public class Controlpanel : MonoBehaviour
         newButton.transform.parent = this.transform;
         newButton.transform.localPosition = new Vector3(x, y, 0);
         newButton.transform.localRotation = Quaternion.Euler(90, 0, 0);
-
+        newButton.name = "button: " + label;
         Button button = newButton.GetComponent<Button>();
 
         button.setLabel(label);

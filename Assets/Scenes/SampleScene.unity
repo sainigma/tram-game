@@ -1148,8 +1148,10 @@ GameObject:
   - component: {fileID: 1439531437}
   - component: {fileID: 1439531436}
   - component: {fileID: 1439531435}
+  - component: {fileID: 1439531438}
+  - component: {fileID: 1439531439}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1220,6 +1222,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+--- !u!114 &1439531438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439531434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ea998422cbe1a489a171516dec9521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1439531439
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439531434}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1485836755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1260,7 @@ GameObject:
   - component: {fileID: 1485836757}
   - component: {fileID: 1485836756}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: PlaneGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,6 +1347,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1012859044}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1625711422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625711421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa9e0d4150e18540a2ee357be4484c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1625711425
 MonoBehaviour:
   m_ObjectHideFlags: 0

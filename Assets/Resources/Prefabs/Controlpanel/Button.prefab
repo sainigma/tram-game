@@ -213,6 +213,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: button.bezel
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: be3cc062841b9fc4689a854659488a89,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: be3cc062841b9fc4689a854659488a89,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be3cc062841b9fc4689a854659488a89, type: 3}
 --- !u!4 &6880576275614569344 stripped
@@ -297,6 +307,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 36eb62c64edf2384e80f89859c6bfb8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 36eb62c64edf2384e80f89859c6bfb8b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Interactable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb62c64edf2384e80f89859c6bfb8b, type: 3}

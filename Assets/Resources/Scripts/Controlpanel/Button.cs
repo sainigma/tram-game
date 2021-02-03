@@ -2,16 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Button : MonoBehaviour, InteractionInterface
 {
     public Color color;
     public string label;
+    public int clicks = 0;
 
     private bool emission = false;
+
+    private bool toggleSwitch = false;
 
     private GameObject lens;
     private GameObject buttonLight;
     private TextMesh textMesh;
+
+    public void interact() {
+        clicks += 1;
+        if (toggleSwitch) {
+            toggleEmission();
+        } else {
+            setEmission(true);
+        }
+    }
+
+    public void noninteract() {
+        if (!toggleSwitch) {
+            setEmission(false);
+        }
+    }
 
     private void SetMaterials() {
         float hue, S, V;
