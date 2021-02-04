@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpedesGames : MonoBehaviour {
+    public float volume;
+
     private Controlpanel controlpanel;
     private List<Button> buttons;
     private int buttonsSize;
 
     private Stack<int> buttonOrder = new Stack<int>();
 
+    private Queue<int> buttonChecklist = new Queue<int>();
+    private Queue<int> tone = new Queue<int>();
+
     private List<double> numbers = new List<double>();
 
     private AudioSource audioSource;
 
+    private float twelthRootOfTwo = Mathf.Pow(2f, 1.0f / 12f);
+
     private void generateNumbers(int size) {
-        int previous = -1;
+        octave += 1;
+        int previous = previousButton;
         for (int i = 0; i < size; i++) {
             float u1 = 1.0f - Random.value;
             float u2 = 1.0f - Random.value;
@@ -42,13 +50,18 @@ public class SpedesGames : MonoBehaviour {
         buttons[previousButton].setEmission(false);
         int value = buttonOrder.Pop();
         previousButton = value;
-
-        audioSource.pitch = 0.5f + 0.5f * value / buttonsSize;
+        int tone = value % 11;
+        int multiplier = Mathf.RoundToInt((float)value / 12f);
+        if (tone == 1 || tone == 3 || tone == 6 || tone == 8 || tone == 10) {
+            tone++;
+        }
+        audioSource.pitch = Mathf.Pow(twelthRootOfTwo, tone - 48 + (multiplier + octave) * 12);
         audioSource.Play();
 
         buttons[value].setEmission(true);
+        buttonChecklist.Enqueue(buttons[value].id);
         if (buttonOrder.Count == 0) {
-            generateNumbers(10);
+            generateNumbers(12);
         }
     }
 
@@ -57,38 +70,101 @@ public class SpedesGames : MonoBehaviour {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = Resources.Load<AudioClip>("Sounds/tone");
         audioSource.loop = true;
-        audioSource.volume = 0.2f;
+        audioSource.volume = volume;
         audioSource.spatialize = true;
+        audioSource.minDistance = 0.1f;
+        audioSource.maxDistance = 1.0f;
     }
 
+    private bool initialized = false;
     private void init() {
+        if (initialized) {
+            return;
+        }
         if (!controlpanel.isInitialized()) {
             return;
         }
         initialized = true;
-        
-        
         buttons = controlpanel.getButtons();
         buttonsSize = buttons.Count;
-        Debug.Log(buttonsSize);
-
-        Random.InitState((int)System.DateTime.Now.Ticks);
-        generateNumbers(10);
     }
 
-    private float timer = 0;
-    private bool initialized = false;
-    void Update() {
-        if (!initialized) {
-            init();
-        } else {
-            if (timer > 0.5f) {
-                int random = (int)Random.Range(0, buttons.Count);
-                next();
-                timer = 0;
-            }
-            timer += Time.deltaTime;
+    private int points;
+    private int octave;
+    private float timer;
+    private float timerThreshold;
+    private int overhead;
+    private bool gameActive = false;
+
+    public void startGame() {
+        octave = 1;
+        buttonOrder = new Stack<int>();
+        buttonChecklist = new Queue<int>();
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        generateNumbers(12);
+
+        setTimer(0);
+        setPoints(0);
+        timerThreshold = 1f;
+        overhead = -1;
+        gameActive = true;
+    }
+
+    private void setTimer(float value) {
+        timer = value;
+        controlpanel.namedDials["dialbrakes"].setValueRelative(timer / timerThreshold);
+    }
+
+    private void setPoints(int value) {
+        points = value;
+        timerThreshold -= 0.01f;
+        controlpanel.namedDials["dialvelocity"].setValue(points);
+    }
+
+    private void endGameLoop() {
+        buttons[previousButton].setEmission(false);
+        gameActive = false;
+        audioSource.Stop();
+        setTimer(0);
+    }
+
+    private void gameLoop() {
+        if (!gameActive) {
+            return;
         }
-        
+
+        if (controlpanel.hasNext()) {
+            ButtonState userInput = controlpanel.getNext();
+            int target = buttonChecklist.Dequeue();
+            if (userInput.id == target) {
+                setPoints(points + 1);
+                if (overhead == 0) {
+                    next();
+                    setTimer(0);
+                } else {
+                    overhead--;
+                } 
+            } else {
+                endGameLoop();
+            }
+        } else if (timer > timerThreshold) {
+            next();
+            setTimer(0);
+            overhead++;
+        }
+        setTimer(timer += Time.deltaTime);
+    }
+
+    void Update() {
+        init();
+        gameLoop();
+        if (!gameActive) {
+            if (controlpanel.hasNext()) {
+                ButtonState userInput = controlpanel.getNext();
+                if (userInput.id == buttons[0].id) {
+                    startGame();
+                }
+            }
+        }
     }
 }

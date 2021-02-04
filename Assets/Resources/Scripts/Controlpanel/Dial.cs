@@ -24,6 +24,10 @@ public class Dial : MonoBehaviour {
     public void setValue(float value) {
         float currentValue = value;
         float t = value / maxValue;
+        setValueRelative(t);
+    }
+
+    public void setValueRelative(float t) {
         float rot = offset + t * range;
         hand.transform.localRotation = Quaternion.Euler(0,0,rot);
     }
@@ -36,14 +40,5 @@ public class Dial : MonoBehaviour {
         offset = dial.offset;
         maxValue = dial.maxValue;
         setValue(0);
-    }
-
-    void Update() {
-        if (currentValue < maxValue) {
-            currentValue += (maxValue - 0.5f) * 0.001f;
-        } else {
-            currentValue = 0;
-        }
-        setValue(currentValue);
     }
 }

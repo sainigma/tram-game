@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Controlpanel : MonoBehaviour
+public class Controlpanel : MonoBehaviour, StateCollector
 {
     public GameObject buttonPrefab;
     public GameObject dialPrefab;
@@ -15,6 +15,18 @@ public class Controlpanel : MonoBehaviour
     private List<Button> buttons = new List<Button>();
     private List<Color> colors = new List<Color>();
     private Dictionary<string, Button> namedButtons = new Dictionary<string, Button>();
+    public Dictionary<string, Dial> namedDials = new Dictionary<string, Dial>();
+
+    private Queue<ButtonState> buttonQueue = new Queue<ButtonState>();
+    public void report(int id, bool state) {
+        buttonQueue.Enqueue(new ButtonState(id, state));
+    }
+    public bool hasNext() {
+        return buttonQueue.Count > 0;
+    }
+    public ButtonState getNext() {
+        return buttonQueue.Dequeue();
+    }
 
     private void spawnButton(float x, float y, int color, string label) {
         GameObject newButton = Instantiate(buttonPrefab, new Vector3(), Quaternion.identity);
@@ -48,7 +60,9 @@ public class Controlpanel : MonoBehaviour
         newDial.transform.localPosition = new Vector3(dialConfig.x, dialConfig.y, 0);
         newDial.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
-        newDial.GetComponent<Dial>().init(dialConfig);
+        Dial newDialLogic = newDial.GetComponent<Dial>();
+        newDialLogic.init(dialConfig);
+        namedDials.Add(dialConfig.label, newDialLogic);
     }
 
 

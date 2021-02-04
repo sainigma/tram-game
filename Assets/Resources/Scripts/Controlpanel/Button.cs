@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ButtonState {
+    public int id;
+    public bool state;
+    public ButtonState(int id, bool state) {
+        this.id = id;
+        this.state = state;
+    }
+}
+
 public class Button : MonoBehaviour, InteractionInterface
 {
     public Color color;
@@ -12,9 +21,12 @@ public class Button : MonoBehaviour, InteractionInterface
 
     private bool toggleSwitch = false;
 
+
+    public int id;
     private GameObject lens;
     private GameObject buttonLight;
     private TextMesh textMesh;
+    private StateCollector stateCollector;
 
     public void interact() {
         clicks += 1;
@@ -23,6 +35,7 @@ public class Button : MonoBehaviour, InteractionInterface
         } else {
             setEmission(true);
         }
+        stateCollector.report(id, emission);
     }
 
     public void noninteract() {
@@ -95,5 +108,7 @@ public class Button : MonoBehaviour, InteractionInterface
     }
 
     void Start() {
+        id = this.gameObject.GetInstanceID();
+        stateCollector = this.transform.parent.gameObject.GetComponent<StateCollector>();
     }
 }
