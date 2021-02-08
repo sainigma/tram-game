@@ -7,6 +7,7 @@ public class Controlpanel : MonoBehaviour, StateCollector
 {
     public GameObject buttonPrefab;
     public GameObject dialPrefab;
+    public GameObject rotaryPrefab;
 
     public TextAsset jsonConfig;
 
@@ -28,24 +29,6 @@ public class Controlpanel : MonoBehaviour, StateCollector
         return buttonQueue.Dequeue();
     }
 
-    private void spawnButton(float x, float y, int color, string label) {
-        GameObject newButton = Instantiate(buttonPrefab, new Vector3(), Quaternion.identity);
-        newButton.transform.parent = this.transform;
-        newButton.transform.localPosition = new Vector3(x, y, 0);
-        newButton.transform.localRotation = Quaternion.Euler(90, 0, 0);
-        newButton.name = "button: " + label;
-        Button button = newButton.GetComponent<Button>();
-
-        button.setLabel(label);
-        button.setColor(colors[color]);
-        button.init();
-
-        buttons.Add(button);
-        if (label != " ") {
-            namedButtons[label] = button;
-        }
-    }
-
     public List<Button> getButtons() {
         return buttons;
     }
@@ -54,17 +37,41 @@ public class Controlpanel : MonoBehaviour, StateCollector
         return initialized;
     }
 
-    private void spawnDial(DialParameters dialConfig) {
-        GameObject newDial = Instantiate(dialPrefab, new Vector3(), Quaternion.identity);
-        newDial.transform.parent = this.transform;
-        newDial.transform.localPosition = new Vector3(dialConfig.x, dialConfig.y, 0);
-        newDial.transform.localRotation = Quaternion.Euler(0, 0, 0);
+    private GameObject spawnPrefab(GameObject prefab, (float, float, float) pos, (float, float, float) rot, string name) {
+        GameObject newObject = Instantiate(prefab, new Vector3(), Quaternion.identity);
+        newObject.transform.parent = this.transform;
+        newObject.transform.localPosition = new Vector3(pos.Item1, pos.Item2, pos.Item3);
+        newObject.transform.localRotation = Quaternion.Euler(rot.Item1, rot.Item2, rot.Item3);
+        newObject.name = name;
+        return newObject;
+    }
 
+    private void spawnButton(ButtonParameters btn) {
+        GameObject newButton = spawnPrefab(buttonPrefab, (btn.x, btn.y, 0), (90, 0, 0), "button: " + btn.label);
+        Button button = newButton.GetComponent<Button>();
+
+        button.setLabel(btn.label);
+        button.setColor(colors[btn.color]);
+        button.init();
+
+        buttons.Add(button);
+        if (btn.label != " ") {
+            namedButtons[btn.label] = button;
+        }
+    }
+
+    private void spawnDial(DialParameters dialConfig) {
+        GameObject newDial = spawnPrefab(dialPrefab, (dialConfig.x, dialConfig.y, 0), (0, 0, 0), "dial: " + dialConfig.label);
         Dial newDialLogic = newDial.GetComponent<Dial>();
         newDialLogic.init(dialConfig);
         namedDials.Add(dialConfig.label, newDialLogic);
     }
 
+    private void spawnRotarySelector(RotarySelectorParameters selector, List<string> labels) {
+        GameObject newSelector = spawnPrefab(rotaryPrefab, (selector.x, selector.y, 0), (90, 0, 0), "selector: " + selector.name);
+        RotarySelector selectorLogic = newSelector.GetComponent<RotarySelector>();
+        selectorLogic.init(selector, labels);
+    }
 
     public void init() {
         if (initialized) {
@@ -74,10 +81,13 @@ public class Controlpanel : MonoBehaviour, StateCollector
             colors.Add(Color.HSVToRGB(hsv.h, hsv.s, hsv.v));
         }
         foreach (ButtonParameters btn in config.buttons) {
-            spawnButton(btn.x, btn.y, btn.color, btn.label);
+            spawnButton(btn);
         }
         foreach (DialParameters dial in config.dials) {
             spawnDial(dial);
+        }
+        foreach (RotarySelectorParameters selector in config.rotaryselectors) {
+            spawnRotarySelector(selector, config.rotarylabels[selector.labels].labels);
         }
         initialized = true;
     }

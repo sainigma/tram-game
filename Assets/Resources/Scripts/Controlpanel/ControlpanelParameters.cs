@@ -25,13 +25,26 @@ public class DialParameters {
 }
 
 [System.Serializable]
-public class ControlpanelParameters {
+public class RotaryLabels {
+  public List<string> labels;
+}
 
+[System.Serializable]
+public class RotarySelectorParameters {
+  public float x, y;
+  public string name;
+  public int handle, labels;
+}
+
+[System.Serializable]
+public class ControlpanelParameters {
 
   public int status;
   public List<HSVColor> colors;
   public List<ButtonParameters> buttons;
   public List<DialParameters> dials;
+  public List<RotaryLabels> rotarylabels;
+  public List<RotarySelectorParameters> rotaryselectors;
 
   public static ControlpanelParameters CreateFromJSON(string jsonString) {
     return JsonUtility.FromJson<ControlpanelParameters>(jsonString);

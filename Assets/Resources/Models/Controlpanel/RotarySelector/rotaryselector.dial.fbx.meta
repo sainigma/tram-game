@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9fb82a8881647aa4997d01ed2a9fbbf7
+guid: c1e07b2cc68ea6c4bae03553f2285946
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: controlpanel_plate
-    second: {fileID: 2100000, guid: 1530c3ffc5f11bf47827f68825f2f007, type: 2}
+      name: rotaryselector.handle
+    second: {fileID: 2100000, guid: 90c5e44f43e8a0045a3d9695eb2cd4a9, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
