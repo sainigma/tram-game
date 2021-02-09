@@ -35,7 +35,7 @@ public class SpedesGames : MonoBehaviour {
                 randNormal = 1f;
             }
             int value = (int)(randNormal * (float)buttonsSize - 1);
-            if (value != previous && value < buttonsSize && value >= 0) {
+            if (value != previous && value < buttonsSize && value >= 1) {
                 buttonOrder.Push(value);
                 previous = value;
             } else {
@@ -47,7 +47,9 @@ public class SpedesGames : MonoBehaviour {
 
     private int previousButton = 0;
     private void next() {
-        buttons[previousButton].setEmission(false);
+        if (previousButton > 0) {
+            buttons[previousButton].setEmission(false);
+        }
         int value = buttonOrder.Pop();
         previousButton = value;
         int tone = value % 11;
@@ -101,6 +103,7 @@ public class SpedesGames : MonoBehaviour {
         buttonOrder = new Stack<int>();
         buttonChecklist = new Queue<int>();
         Random.InitState((int)System.DateTime.Now.Ticks);
+        buttons[0].setEmission(true);
         generateNumbers(12);
 
         setTimer(0);
@@ -123,6 +126,7 @@ public class SpedesGames : MonoBehaviour {
 
     private void endGameLoop() {
         buttons[previousButton].setEmission(false);
+        buttons[0].setEmission(false);
         gameActive = false;
         audioSource.Stop();
         setTimer(0);
@@ -135,17 +139,22 @@ public class SpedesGames : MonoBehaviour {
 
         if (controlpanel.hasNext()) {
             ButtonState userInput = controlpanel.getNext();
-            int target = buttonChecklist.Dequeue();
-            if (userInput.id == target) {
-                setPoints(points + 1);
-                if (overhead == 0) {
-                    next();
-                    setTimer(0);
+            while (!userInput.state && controlpanel.hasNext()) {
+                userInput = controlpanel.getNext();
+            }
+            if (userInput.state) {
+                int target = buttonChecklist.Dequeue();
+                if (userInput.id == target) {
+                    setPoints(points + 1);
+                    if (overhead == 0) {
+                        next();
+                        setTimer(0);
+                    } else {
+                        overhead--;
+                    }
                 } else {
-                    overhead--;
-                } 
-            } else {
-                endGameLoop();
+                    endGameLoop();
+                }
             }
         } else if (timer > timerThreshold) {
             next();
@@ -161,7 +170,7 @@ public class SpedesGames : MonoBehaviour {
         if (!gameActive) {
             if (controlpanel.hasNext()) {
                 ButtonState userInput = controlpanel.getNext();
-                if (userInput.id == buttons[0].id) {
+                if (userInput.id == buttons[0].id && userInput.state) {
                     startGame();
                 }
             }

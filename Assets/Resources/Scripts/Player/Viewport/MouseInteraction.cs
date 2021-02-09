@@ -11,9 +11,16 @@ public class MouseInteraction : MonoBehaviour {
 
     private bool debounced = true;
 
+    List <string> [] asd;
+
     private string[] cursorLabels = {"default", "use", "click", "clicking", "grab", "grabbing"};
     private Dictionary<string, Sprite> cursorSprites = new Dictionary<string, Sprite>();
     
+    private Dictionary<string, string[]> hitActions = new Dictionary<string, string[]> {
+        {"Interactable", new string[]{"click", "clicking"}},
+        {"Draggable", new string[]{"grab", "grabbing"}}
+    };
+
     private InteractionInterface activeInterface;
 
     void Start() {
@@ -46,6 +53,22 @@ public class MouseInteraction : MonoBehaviour {
         bool hit = Physics.Raycast(ray, out hitInfo, interactionRange);
         if (hit) {
             GameObject collision = hitInfo.transform.gameObject;
+            if (hitActions.ContainsKey(collision.tag)) {
+                string defaultAction = hitActions[collision.tag][0];
+                string specialAction = hitActions[collision.tag][1];
+                setCursor(defaultAction);
+                if (Input.GetMouseButton(0)) {
+                    setCursor(specialAction);
+                    GameObject target = collision.transform.parent.gameObject;
+                    debounced = false;
+                    activeInterface = target.GetComponent<InteractionInterface>();
+                    activeInterface.interact();
+                }
+            } else {
+                setCursor("default");
+            }
+
+            /*
             if (collision.tag == "Interactable") {
                 setCursor("click");
                 if (Input.GetMouseButton(0)) {
@@ -55,9 +78,10 @@ public class MouseInteraction : MonoBehaviour {
                     activeInterface = target.GetComponent<InteractionInterface>();
                     activeInterface.interact();
                 }
-            } else {
+            }else {
                 setCursor("default");
             }
+            */
         }
     }
 

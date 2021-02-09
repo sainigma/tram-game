@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1e07b2cc68ea6c4bae03553f2285946
+guid: ee77d2182ae540f498746ab77cdc105c
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: rotaryselector.handle
-    second: {fileID: 2100000, guid: 90c5e44f43e8a0045a3d9695eb2cd4a9, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: 459ab3ba988ac7544b392e3228503f01, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -41,7 +41,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1

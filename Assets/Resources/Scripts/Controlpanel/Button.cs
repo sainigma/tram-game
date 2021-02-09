@@ -30,18 +30,17 @@ public class Button : MonoBehaviour, InteractionInterface
 
     public void interact() {
         clicks += 1;
-        if (toggleSwitch) {
-            toggleEmission();
-        } else {
-            setEmission(true);
-        }
-        stateCollector.report(id, emission);
+        //setEmission(true);
+        lens.transform.localPosition = new Vector3(0, -0.002f, 0);
+        textMesh.transform.localPosition = new Vector3(0, 0.00472f, 0);
+        stateCollector.report(id, true);
     }
 
     public void noninteract() {
-        if (!toggleSwitch) {
-            setEmission(false);
-        }
+        //setEmission(false);
+        lens.transform.localPosition = new Vector3(0, 0, 0);
+        textMesh.transform.localPosition = new Vector3(0, 0.00672f, 0);
+        stateCollector.report(id, false);
     }
 
     private void SetMaterials() {
