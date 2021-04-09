@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseInteraction : MonoBehaviour {
     
-    private float cursorDistance = 0.1f;
+    public float cursorDistance = 0.1f;
     private float interactionRange = 10f;
     private GameObject cursor;
     private Camera viewport;
