@@ -67,21 +67,6 @@ public class MouseInteraction : MonoBehaviour {
             } else {
                 setCursor("default");
             }
-
-            /*
-            if (collision.tag == "Interactable") {
-                setCursor("click");
-                if (Input.GetMouseButton(0)) {
-                    setCursor("clicking");
-                    GameObject target = collision.transform.parent.gameObject;
-                    debounced = false;
-                    activeInterface = target.GetComponent<InteractionInterface>();
-                    activeInterface.interact();
-                }
-            }else {
-                setCursor("default");
-            }
-            */
         }
     }
 
